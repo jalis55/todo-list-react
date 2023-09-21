@@ -1,6 +1,8 @@
 
 import { useState } from 'react';
 import './App.css';
+import Tasks from './Tasks';
+import TaskList from './TaskList';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
@@ -13,11 +15,14 @@ function App() {
   //handle submit
   const addTask=()=>{
     const task={
-      id:todoList.length===0?0:todoList[todoList.length-1].id+1,
-      taskName:newTask
+      id:todoList.length===0?1:todoList[todoList.length-1].id+1,
+      taskName:newTask,
+      isCompleted:false
     }
     const newTaskItem=[...todoList,task];
     setTodoList(newTaskItem);
+    setNewTask("")
+    
     //simplified
     // setTodoList([...todoList,newTask])
 
@@ -25,6 +30,14 @@ function App() {
   // const taskList=todoList.map((todos,key)=>{
   //   return <li key={key}>{todos}</li>
   // })
+
+  const updateTask=(id)=>{
+    const updatedTasks=todoList.map((todos)=>{
+      return todos.id==id?{...todos,isCompleted:true}:todos
+    })
+    setTodoList(updatedTasks)
+
+  }
 
   const deleteTask=(id)=>{
     const taskItems=todoList.filter((task)=>{
@@ -37,17 +50,12 @@ function App() {
 
 return (
     <div className="App">
-      <div className='addTask'>
-        <input type="text" onChange={handleChange} />
-        <button onClick={addTask}>Add Task</button>
-      </div>
+      <Tasks addTask={addTask} handleChange={handleChange} newTask={newTask} />
+
       <div className='taskList'>
-        {todoList.map((todos,key)=>{
+        {todoList.map((todos)=>{
           return(
-            <div>
-              <li key={key}>{todos.taskName}</li>
-              <button onClick={()=>deleteTask(todos.id)}> X </button>
-            </div>
+            <TaskList todos={todos} deleteTask={deleteTask} updateTask={updateTask}/>
             
           )
         })}
