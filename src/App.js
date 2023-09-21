@@ -12,7 +12,11 @@ function App() {
   };
   //handle submit
   const addTask=()=>{
-    const newTaskItem=[...todoList,newTask];
+    const task={
+      id:todoList.length===0?0:todoList[todoList.length-1].id+1,
+      taskName:newTask
+    }
+    const newTaskItem=[...todoList,task];
     setTodoList(newTaskItem);
     //simplified
     // setTodoList([...todoList,newTask])
@@ -22,9 +26,9 @@ function App() {
   //   return <li key={key}>{todos}</li>
   // })
 
-  const deleteTask=(taskName)=>{
+  const deleteTask=(id)=>{
     const taskItems=todoList.filter((task)=>{
-      return task !==taskName;
+      return task.id !==id;
     })
     setTodoList(taskItems);
     // simplified
@@ -41,8 +45,8 @@ return (
         {todoList.map((todos,key)=>{
           return(
             <div>
-              <li key={key}>{todos}</li>
-              <button onClick={()=>deleteTask(todos)}> X </button>
+              <li key={key}>{todos.taskName}</li>
+              <button onClick={()=>deleteTask(todos.id)}> X </button>
             </div>
             
           )
