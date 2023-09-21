@@ -52,7 +52,6 @@ return (
     <div className="App">
       <Tasks addTask={addTask} handleChange={handleChange} newTask={newTask} />
 
-      <div className='taskList'>
         {todoList.map((todos)=>{
           return(
             <TaskList todos={todos} deleteTask={deleteTask} updateTask={updateTask}/>
@@ -60,7 +59,7 @@ return (
           )
         })}
         {/* {taskList} */}
-      </div>
+      
 
     </div>
   );
